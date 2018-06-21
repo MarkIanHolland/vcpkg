@@ -1,0 +1,4 @@
+Source: vmtk
+Version: 1.4.0
+Description: The Vascular Modeling Toolkit
+Build-Depends: vtk, itk
