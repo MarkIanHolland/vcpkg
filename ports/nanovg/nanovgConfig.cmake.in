@@ -1,0 +1,13 @@
+# - Config file for the NANOVG package
+# It defines the following variables
+#  NANOVG_INCLUDE_DIRS - include directories for SOIL
+#  NANOVG_LIBRARIES    - libraries to link against
+
+# Load targets
+get_filename_component(NANOVG_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+include("${NANOVG_CMAKE_DIR}/NANOVGTargets.cmake")
+
+# Set properties
+get_target_property(NANOVG_INCLUDE_DIRS NANOVG INTERFACE_INCLUDE_DIRECTORIES)
+set(NANOVG_LIBRARIES NANOVG)
+mark_as_advanced(NANOVG_INCLUDE_DIRS NANOVG_LIBRARIES)
