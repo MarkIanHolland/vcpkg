@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index fe54d35..2ac718c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -152,7 +152,7 @@ endif()
+ 
+ #-----------------------------------------------------------------------------
+ # ITK build configuration options.
+-option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
++#option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
+ set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
+ 
+ option(ITK_DYNAMIC_LOADING "Support run-time loading of shared libraries" ON)
