@@ -31,8 +31,7 @@ install(TARGETS nativefiledialog
         PUBLIC_HEADER DESTINATION include
         )
 
-install(FILES ${HEADERS} DESTINATION include/nativefiledialog/)
-
+#install(FILES ${HEADERS} DESTINATION include/nativefiledialog/)
 #install(TARGETS nativefiledialog
 #        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 #        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
