@@ -16,8 +16,10 @@ add_library(nativefiledialog
         src/nfd_win.cpp
         )
 
-set_target_properties(nativefiledialog PROPERTIES VERSION ${PROJECT_VERSION})
-target_include_directories(nativefiledialog PRIVATE ${PROJECT_SOURCE_DIR})
+set_target_properties(nativefiledialog PROPERTIES 
+        VERSION ${PROJECT_VERSION}
+        PUBLIC_HEADER "${HEADERS}"
+        )
 target_include_directories(nativefiledialog PRIVATE ${PROJECT_SOURCE_DIR}/src)
 target_include_directories(nativefiledialog PRIVATE ${PROJECT_SOURCE_DIR}/src/include)
 
@@ -25,7 +27,9 @@ install(TARGETS nativefiledialog
         EXPORT nativefiledialogTargets
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        PUBLIC_HEADER DESTINATION include
+        )
 
 install(FILES ${HEADERS} DESTINATION include/nativefiledialog/)
 
