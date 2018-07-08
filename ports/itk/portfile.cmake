@@ -12,7 +12,13 @@ vcpkg_from_github(
 file(RENAME ${SOURCE_PATH} ${CURRENT_BUILDTREES_DIR}/ITK)
 set(SOURCE_PATH "${CURRENT_BUILDTREES_DIR}/ITK")
 
+vcpkg_apply_patches(
+    SOURCE_PATH ${SOURCE_PATH}
+    PATCHES ${CMAKE_CURRENT_LIST_DIR}/find-hdf5.patch
+)
+
 vcpkg_configure_cmake(
+    DISABLE_PARALLEL_CONFIGURE
     SOURCE_PATH ${SOURCE_PATH}
     PREFER_NINJA
     OPTIONS
@@ -40,7 +46,7 @@ vcpkg_configure_cmake(
         #-DITK_PYTHON_VERSION=3
 
         # HDF5 must NOT be installed, otherwise it causes: ...\installed\x64-windows-static\include\H5Tpkg.h(25): fatal error C1189: #error:  "Do not include this file outside the H5T package!"
-        -DITK_USE_SYSTEM_HDF5=OFF # if ON, causes: ...\buildtrees\itk\x64-windows-static-rel\Modules\ThirdParty\HDF5\src\itk_H5Cpp.h(25): fatal error C1083: Cannot open include file: 'H5Cpp.h': No such file or directory
+        -DITK_USE_SYSTEM_HDF5=ON # if ON, causes: ...\buildtrees\itk\x64-windows-static-rel\Modules\ThirdParty\HDF5\src\itk_H5Cpp.h(25): fatal error C1083: Cannot open include file: 'H5Cpp.h': No such file or directory
 
         # -DModule_ITKVtkGlue=ON # this option requires VTK to be a dependency in CONTROL file. VTK depends on HDF5!
         -DModule_IOSTL=ON # example how to turn on a non-default module

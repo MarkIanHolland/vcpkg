@@ -1,0 +1,22 @@
+diff --git a/modules/thirdparty/hdf5/itk-module-init.cmake b/modules/thirdparty/hdf5/itk-module-init.cmake
+index a9207a8..186e02c 100644
+--- a/modules/thirdparty/hdf5/itk-module-init.cmake
++++ b/modules/thirdparty/hdf5/itk-module-init.cmake
+@@ -2,12 +2,15 @@ option(ITK_USE_SYSTEM_HDF5 "Use an outside build of HDF5." ${ITK_USE_SYSTEM_LIBR
+ mark_as_advanced(ITK_USE_SYSTEM_HDF5)
+ if(ITK_USE_SYSTEM_HDF5)
+   if(BUILD_SHARED_LIBS)
+-    find_package(HDF5 QUIET NO_MODULE COMPONENTS CXX C shared)
++    find_package(HDF5 QUIET NO_MODULE COMPONENTS CXX C)
++    link_libraries(hdf5::hdf5_cpp-shared)
+   else()
+-    find_package(HDF5 QUIET NO_MODULE COMPONENTS CXX C static)
++    find_package(HDF5 QUIET NO_MODULE COMPONENTS CXX C)
++    link_libraries(hdf5::hdf5_cpp-static)
+   endif()
+ 
+   if(NOT HDF5_FOUND)
+     find_package(HDF5 REQUIRED COMPONENTS CXX C)
++    link_libraries(hdf5::hdf5_cpp)
+   endif()
+ endif()
