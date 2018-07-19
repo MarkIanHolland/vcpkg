@@ -36,7 +36,8 @@ install(TARGETS nativefiledialog
         PUBLIC_HEADER DESTINATION include
         )
 
-#install(FILES ${HEADERS} DESTINATION include/nativefiledialog/)
-#install(TARGETS nativefiledialog
-#        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(EXPORT nativefiledialogTargets
+        FILE nativefiledialogTargets.cmake
+        DESTINATION "${INSTALL_CMAKE_DIR}"
+      )
+      

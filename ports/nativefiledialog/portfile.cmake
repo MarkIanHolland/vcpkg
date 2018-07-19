@@ -18,9 +18,9 @@ vcpkg_configure_cmake(
     PREFER_NINJA
 )
 vcpkg_install_cmake()
-
 vcpkg_copy_pdbs()
 
+file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/share)
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/include)
 # Handle copyright
 file(COPY ${SOURCE_PATH}/README.md DESTINATION ${CURRENT_PACKAGES_DIR}/share/nativefiledialog/)
