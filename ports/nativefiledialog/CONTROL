@@ -1,3 +1,4 @@
 Source: nativefiledialog
 Version: 1.1.2
 Description: C library that portably invokes native file open, folder select and save dialogs.
+Build-Depends: gtk (linux)

@@ -8,13 +8,18 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set(HEADERS 
         src/include/nfd.h
 )
-
-add_library(nativefiledialog
+set(SOURCE
         src/nfd_common.c
-        src/include/nfd.h
         src/nfd_common.h
-        src/nfd_win.cpp
         )
+
+if(WIN32)
+        add_library(nativefiledialog "${SOURCE}" src/nfd_win.cpp)
+elseif(UNIX AND NOT APPLE)
+        add_library(nativefiledialog "${SOURCE}" src/nfd_gtk.c)
+else()
+        add_library(nativefiledialog "${SOURCE}" src/nfd_cocoa.m)
+endif()
 
 set_target_properties(nativefiledialog PROPERTIES 
         VERSION ${PROJECT_VERSION}
