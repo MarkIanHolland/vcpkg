@@ -1,0 +1,29 @@
+diff --git a/Modules/ThirdParty/HDF5/CMakeLists.txt b/Modules/ThirdParty/HDF5/CMakeLists.txt
+index 6caa63b..57f9e8a 100644
+--- a/Modules/ThirdParty/HDF5/CMakeLists.txt
++++ b/Modules/ThirdParty/HDF5/CMakeLists.txt
+@@ -21,11 +21,7 @@ endif()
+   endif()
+ 
+   set(ITKHDF5_LIBRARIES )
+-  if(BUILD_SHARED_LIBS)
+-    list(APPEND ITKHDF5_LIBRARIES ${HDF5_C_SHARED_LIBRARY} ${HDF5_CXX_SHARED_LIBRARY})
+-  else()
+-    list(APPEND ITKHDF5_LIBRARIES ${HDF5_C_STATIC_LIBRARY} ${HDF5_CXX_STATIC_LIBRARY})
+-  endif()
++  list(APPEND ITKHDF5_LIBRARIES ${HDF5_C_SHARED_LIBRARY} ${HDF5_CXX_SHARED_LIBRARY})
+ 
+   set(ITKHDF5_INCLUDE_DIRS
+     ${ITKHDF5_BINARY_DIR}/src # itk_hdf5.h and itk_H5Cpp.h
+@@ -45,11 +41,7 @@ else()
+     ${ITKHDF5_SOURCE_DIR}/src
+     ${ITKHDF5_BINARY_DIR}/src
+     )
+-  if(BUILD_SHARED_LIBS)
+     set(ITKHDF5_LIBRARIES hdf5_cpp-shared hdf5-shared)
+-  else()
+-    set(ITKHDF5_LIBRARIES hdf5_cpp-static hdf5-static)
+-  endif()
+ endif()
+ 
+ configure_file(src/itk_hdf5.h.in src/itk_hdf5.h)

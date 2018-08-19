@@ -3,11 +3,11 @@ if(VCPKG_CMAKE_SYSTEM_NAME STREQUAL "WindowsStore")
 endif()
 
 include(vcpkg_common_functions)
-set(SOURCE_PATH ${CURRENT_BUILDTREES_DIR}/src/CMake-hdf5-1.10.1/hdf5-1.10.1)
+set(SOURCE_PATH ${CURRENT_BUILDTREES_DIR}/src/CMake-hdf5-1.10.2/hdf5-1.10.2)
 vcpkg_download_distfile(ARCHIVE
-    URLS "https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.1/src/CMake-hdf5-1.10.1.zip"
-    FILENAME "CMake-hdf5-1.10.1.zip"
-    SHA512 0045a6301c6e3479be70f025d8690297ff33b9e6e99ec217a33e9b916d9410fb3f7110b7361fbeaec163c35b8e6bd948ac8d5fdace80930c98c6a0b27c6fd5c4
+    URLS "https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.2/src/CMake-hdf5-1.10.2.zip"
+    FILENAME "CMake-hdf5-1.10.2.zip"
+    SHA512 6c96f68f9ae2179695e1760f40d91f162d7b796ab53dc402f3c60ba44a29a48b5e8ed82b550000ce1715ea587f825565f6b3d17bb106e0d72662a7d60da3f4a4
 )
 vcpkg_extract_source_archive(${ARCHIVE})
 
