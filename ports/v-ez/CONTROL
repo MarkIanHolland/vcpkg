@@ -1,0 +1,3 @@
+Source: v-ez
+Version: 1.1.0
+Description: V-EZ is a wrapper to alleviate the complexity and application responsibility of using the Vulkan API.
