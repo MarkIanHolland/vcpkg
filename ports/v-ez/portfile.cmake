@@ -1,11 +1,5 @@
 include(vcpkg_common_functions)
 
-find_package(VULKAN QUIET)
-if(NOT VULKAN_FOUND)
-    message(FATAL_ERROR "Could not find Vulkan SDK. Before continuing, please download and install Vulkan from:\n"
-                        "https://vulkan.lunarg.com/sdk/home")
-endif()
-
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO GPUOpen-LibrariesAndSDKs/V-EZ
