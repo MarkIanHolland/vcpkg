@@ -2,8 +2,8 @@ include(vcpkg_common_functions)
 vcpkg_from_github(
 	OUT_SOURCE_PATH SOURCE_PATH
     REPO mongodb/mongo-cxx-driver
-	REF r3.1.1
-    SHA512 ba8a735e5645cbce4497df71a4577e891d507f577dbd5270ec8a82e54c39c2806bf2ff4848b621f18b36d31fb6031e5b4211972b661c43009bff0ed7ab6cf338
+	REF r3.3.1
+    SHA512 ca82aedd60df722f3a560bfede73a67770f46cd88994c1e1c40c2b26c4dfc027652b6b37f3dddccf78c242f05bc34285b9c54432aea6343dc46881b534f5ae36
 	HEAD_REF master
 	PATCHES
 	 "${CURRENT_PORT_DIR}/disable_test_and_example.patch"
