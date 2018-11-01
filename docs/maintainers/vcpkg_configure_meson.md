@@ -1,0 +1,36 @@
+# vcpkg_configure_meson
+
+Configure Meson for Debug and Release builds of a project.
+
+## Usage
+```cmake
+vcpkg_configure_meson(
+    SOURCE_PATH <${SOURCE_PATH}>
+    [OPTIONS <-DUSE_THIS_IN_ALL_BUILDS=1>...]
+    [OPTIONS_RELEASE <-DOPTIMIZE=1>...]
+    [OPTIONS_DEBUG <-DDEBUGGABLE=1>...]
+)
+```
+
+## Parameters
+### SOURCE_PATH
+Specifies the directory containing the `meson.build`. By convention, this is usually set in the portfile as the variable `SOURCE_PATH`.
+
+### OPTIONS
+Additional options passed to meson during the configuration.
+
+### OPTIONS_RELEASE
+Additional options passed to meson during the Release configuration. These are in addition to `OPTIONS`.
+
+### OPTIONS_DEBUG
+Additional options passed to meson during the Debug configuration. These are in addition to `OPTIONS`.
+
+## Notes
+This command supplies many common arguments to meson. To see the full list, examine the source.
+
+## Examples
+
+* [libepoxy](https://github.com/Microsoft/vcpkg/blob/master/ports/libepoxy/portfile.cmake)
+
+## Source
+[scripts/meson/vcpkg_configure_meson.meson](https://github.com/Microsoft/vcpkg/blob/master/scripts/cmake/vcpkg_configure_meson.cmake)
