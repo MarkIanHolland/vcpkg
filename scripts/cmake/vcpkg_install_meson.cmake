@@ -1,3 +1,16 @@
+## # vcpkg_install_meson
+## 
+## Build and install a meson project.
+## 
+## ## Usage:
+## ```cmake
+## vcpkg_install_meson()
+## ```
+## 
+## ## Examples
+## 
+## * [libepoxy](https://github.com/Microsoft/vcpkg/blob/master/ports/libepoxy/portfile.cmake)
+## 
 function(vcpkg_install_meson)
 
     vcpkg_find_acquire_program(NINJA)

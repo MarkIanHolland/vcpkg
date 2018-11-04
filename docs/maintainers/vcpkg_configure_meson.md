@@ -33,4 +33,4 @@ This command supplies many common arguments to meson. To see the full list, exam
 * [libepoxy](https://github.com/Microsoft/vcpkg/blob/master/ports/libepoxy/portfile.cmake)
 
 ## Source
-[scripts/meson/vcpkg_configure_meson.meson](https://github.com/Microsoft/vcpkg/blob/master/scripts/cmake/vcpkg_configure_meson.cmake)
+[scripts/cmake/vcpkg_configure_meson.cmake](https://github.com/Microsoft/vcpkg/blob/master/scripts/cmake/vcpkg_configure_meson.cmake)
