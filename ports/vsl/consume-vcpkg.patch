@@ -1,0 +1,53 @@
+diff --git a/VSL/CMakeLists.txt b/VSL/CMakeLists.txt
+index c62853b..a9bd6fb 100644
+--- a/VSL/CMakeLists.txt
++++ b/VSL/CMakeLists.txt
+@@ -4,27 +4,35 @@ file(GLOB vslSource
+ file(GLOB vslHeaders
+ 	"include/vsl/*.h")	
+ 
++set (__VSL_TEXTURE_LOADING__ 1)
++
+ configure_file (
+-  "${CMAKE_CURRENT_SOURCE_DIR}/include/vslConfig.h.in"
+-  "${CMAKE_CURRENT_SOURCE_DIR}/include/vsl/vslConfig.h")	
++  "include/vslConfig.h.in"
++  "include/vsl/vslConfig.h")	
+ 	
+-add_library(vsl  STATIC
++add_library(vsl STATIC
+ 	${vslSource} ${vslHeaders})
+ 	
+ source_group("Header Files" FILES ${vslHeaders})
+ 
+ target_include_directories(vsl 
+-	PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/vsl")
++	PUBLIC "include/vsl"
++	PRIVATE "${VCPKG_ROOT_DIR}/installed/${TARGET_TRIPLET}/include")
+ 
+-include_directories(
+-	../contrib/devil/
+-	../contrib/assimp3.3.1/include
+-	../contrib/glew
+-	../contrib/tinyxml)
+-	
+ add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+ add_definitions(-DTIXML_USE_STL)
+ add_definitions(-DGLEW_STATIC)
+ 
+-install (TARGETS vsl DESTINATION lib)
+-install (DIRECTORY include/vsl DESTINATION include)
+\ No newline at end of file
++find_package(OpenGL REQUIRED)
++find_package(assimp REQUIRED)
++find_package(DevIL REQUIRED)
++find_package(GLEW CONFIG REQUIRED)
++target_link_libraries(vsl GLEW::GLEW ${OpenGL_LIBRARY_DIRS} ${IL_LIBRARIES} ${ASSIMP_LIBRARIES})
++
++install (TARGETS vsl
++	EXPORT vsl
++	RUNTIME DESTINATION bin
++	ARCHIVE DESTINATION lib
++	LIBRARY DESTINATION lib)
++
++install (DIRECTORY include/vsl DESTINATION include)

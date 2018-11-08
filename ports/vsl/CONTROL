@@ -1,0 +1,4 @@
+Source: vsl
+Version: master
+Description: 
+Build-Depends: assimp, freeglut, glew, tinyxml, zlib, devil
