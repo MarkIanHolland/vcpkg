@@ -7,8 +7,8 @@
 ## vcpkg_configure_meson(
 ##     SOURCE_PATH <${SOURCE_PATH}>
 ##     [OPTIONS <-DUSE_THIS_IN_ALL_BUILDS=1>...]
-##     [OPTIONS_RELEASE <-DOPTIMIZE=1>...]
-##     [OPTIONS_DEBUG <-DDEBUGGABLE=1>...]
+##     [OPTIONS_RELEASE <-Doptimize=1>...]
+##     [OPTIONS_DEBUG <-Ddebuggable=1>...]
 ## )
 ## ```
 ## 
@@ -30,6 +30,7 @@
 ## 
 ## ## Examples
 ## 
+## * [fribidi](https://github.com/Microsoft/vcpkg/blob/master/ports/fribidi/portfile.cmake)
 ## * [libepoxy](https://github.com/Microsoft/vcpkg/blob/master/ports/libepoxy/portfile.cmake)
 
 function(vcpkg_configure_meson)

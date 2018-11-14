@@ -9,6 +9,7 @@
 ## 
 ## ## Examples
 ## 
+## * [fribidi](https://github.com/Microsoft/vcpkg/blob/master/ports/fribidi/portfile.cmake)
 ## * [libepoxy](https://github.com/Microsoft/vcpkg/blob/master/ports/libepoxy/portfile.cmake)
 ## 
 function(vcpkg_install_meson)
