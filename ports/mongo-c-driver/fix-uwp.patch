@@ -1,72 +1,65 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 5beb610..7e74ff7 100644
+index f7a0dfe..24266a6 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -55,6 +55,7 @@
- 
- include(MaintainerFlags)
- 
-+if ((NOT ENABLE_STATIC STREQUAL ON) AND (NOT ENABLE_STATIC STREQUAL AUTO))
- # The input variable BSON_ROOT_DIR is respected for backwards compatibility,
- # but you should use the standard CMAKE_PREFIX_PATH instead.
- message (STATUS "Searching for libbson CMake packages")
-@@ -67,12 +68,14 @@
- message ("--   libbson found version \"${BSON_VERSION}\"")
- message ("--   libbson include path \"${BSON_INCLUDE_DIRS}\"")
- message ("--   libbson libraries \"${BSON_LIBRARIES}\"")
-+endif ()
- 
- if (ENABLE_STATIC STREQUAL ON OR ENABLE_STATIC STREQUAL AUTO)
-    find_package (libbson-static-1.0
+@@ -107,7 +107,8 @@ if (ENABLE_BSON STREQUAL SYSTEM)
+    find_package (libbson-1.0
        "${MONGOC_MAJOR_VERSION}.${MONGOC_MINOR_VERSION}.${MONGOC_MICRO_VERSION}"
        HINTS
 -      ${BSON_ROOT_DIR})
 +      ${BSON_ROOT_DIR}
 +      REQUIRED)
  
-    if (ENABLE_STATIC STREQUAL ON AND NOT BSON_STATIC_LIBRARY)
-       message (FATAL_ERROR "Static libbson not found. Pass -DENABLE_STATIC=OFF")
-@@ -627,6 +630,7 @@
-    set (LIBS ${LIBS} ws2_32)
- endif()
- 
+    if (ENABLE_BSON STREQUAL SYSTEM AND NOT BSON_LIBRARIES)
+       message (FATAL_ERROR "System libbson not found")
+diff --git a/src/libmongoc/CMakeLists.txt b/src/libmongoc/CMakeLists.txt
+index 400dce8..6b3c16c 100644
+--- a/src/libmongoc/CMakeLists.txt
++++ b/src/libmongoc/CMakeLists.txt
+@@ -608,7 +608,7 @@ set (LIBRARIES
+ if (WIN32)
+    set (LIBRARIES ${LIBRARIES} ws2_32)
+ endif ()
+-
 +if (NOT MONGOC_ENABLE_STATIC)
- add_library(mongoc_shared SHARED ${SOURCES} ${HEADERS})
- set_target_properties(mongoc_shared PROPERTIES CMAKE_CXX_VISIBILITY_PRESET hidden)
- target_link_libraries (mongoc_shared ${LIBS} ${BSON_LIBRARIES})
-@@ -638,6 +642,7 @@
- # This hack sets up standard symlink, libmongoc-1.0.so -> libmongoc-1.0.0.so
- set_target_properties(mongoc_shared PROPERTIES VERSION 0 SOVERSION ${MONGOC_MAJOR_VERSION})
- set_target_properties(mongoc_shared PROPERTIES OUTPUT_NAME "mongoc-${MONGOC_API_VERSION}" PREFIX "lib")
-+endif ()
+ add_library (mongoc_shared SHARED ${SOURCES} ${HEADERS} ${HEADERS_FORWARDING})
+ set_target_properties (mongoc_shared PROPERTIES CMAKE_CXX_VISIBILITY_PRESET hidden)
+ target_link_libraries (mongoc_shared ${LIBRARIES} ${BSON_LIBRARIES})
+@@ -617,7 +617,7 @@ target_compile_definitions (mongoc_shared PUBLIC MONGOC_COMPILATION ${BSON_DEFIN
  
+ set_target_properties (mongoc_shared PROPERTIES VERSION 0.0.0 SOVERSION 0)
+ set_target_properties (mongoc_shared PROPERTIES OUTPUT_NAME "mongoc-${MONGOC_API_VERSION}" PREFIX "lib")
+-
++endif()
  if (MONGOC_ENABLE_STATIC)
-    add_library(mongoc_static STATIC ${SOURCES} ${HEADERS})
-@@ -804,6 +809,7 @@
- file(COPY ${SOURCE_DIR}/tests/x509gen DESTINATION ${PROJECT_BINARY_DIR}/tests)
- file(COPY ${SOURCE_DIR}/tests/release_files DESTINATION ${PROJECT_BINARY_DIR}/tests)
+    add_library (mongoc_static STATIC ${SOURCES} ${HEADERS} ${HEADERS_FORWARDING})
+    target_link_libraries (mongoc_static ${LIBRARIES} ${BSON_STATIC_LIBRARIES})
+@@ -870,6 +870,7 @@ file (COPY ${PROJECT_SOURCE_DIR}/tests/json DESTINATION ${PROJECT_BINARY_DIR}/te
+ file (COPY ${PROJECT_SOURCE_DIR}/tests/x509gen DESTINATION ${PROJECT_BINARY_DIR}/tests)
+ file (COPY ${PROJECT_SOURCE_DIR}/tests/release_files DESTINATION ${PROJECT_BINARY_DIR}/tests)
  
 +if (NOT MONGOC_ENABLE_STATIC)
- install(
-   TARGETS mongoc_shared ${EXAMPLES}
-   LIBRARY DESTINATION lib
-@@ -810,10 +816,11 @@
-   ARCHIVE DESTINATION lib
-   RUNTIME DESTINATION bin
+ install (
+    TARGETS mongoc_shared ${EXAMPLES}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+@@ -877,10 +878,10 @@ install (
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    FRAMEWORK DESTINATION ${CMAKE_INSTALL_BINDIR} 
  )
-+endif ()
- 
+-
++endif()
  if (MONGOC_ENABLE_STATIC)
-    install(
--     TARGETS mongoc_shared mongoc_static ${EXAMPLES}
-+     TARGETS mongoc_static ${EXAMPLES}
-      LIBRARY DESTINATION lib
-      ARCHIVE DESTINATION lib
-      RUNTIME DESTINATION bin
-index 5beb610..7e74ff7 100644
---- a/src/mongoc/mongoc-gridfs-file.c
-+++ b/src/mongoc/mongoc-gridfs-file.c
-@@ -753,7 +753,7 @@ _mongoc_gridfs_file_refresh_page (mongoc_gridfs_file_t *file)
+    install (
+-      TARGETS mongoc_shared mongoc_static ${EXAMPLES}
++      TARGETS mongoc_static ${EXAMPLES}
+       LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+       ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+       RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+diff --git a/src/libmongoc/src/mongoc/mongoc-gridfs-file.c b/src/libmongoc/src/mongoc/mongoc-gridfs-file.c
+index 893a76b..f315310 100644
+--- a/src/libmongoc/src/mongoc/mongoc-gridfs-file.c
++++ b/src/libmongoc/src/mongoc/mongoc-gridfs-file.c
+@@ -765,7 +765,7 @@ _mongoc_gridfs_file_refresh_page (mongoc_gridfs_file_t *file)
     bson_t query;
     bson_t child;
     bson_t opts;
@@ -75,11 +68,11 @@ index 5beb610..7e74ff7 100644
     const char *key;
     bson_iter_t iter;
     int64_t existing_chunks;
-diff --git a/src/mongoc/mongoc-handshake.c b/src/mongoc/mongoc-handshake.c
-index 4e181bd..b274fc1 100644
---- a/src/mongoc/mongoc-handshake.c
-+++ b/src/mongoc/mongoc-handshake.c
-@@ -243,7 +243,8 @@ _get_os_version (void)
+diff --git a/src/libmongoc/src/mongoc/mongoc-handshake.c b/src/libmongoc/src/mongoc/mongoc-handshake.c
+index c96f8e2..2c0dfe6 100644
+--- a/src/libmongoc/src/mongoc/mongoc-handshake.c
++++ b/src/libmongoc/src/mongoc/mongoc-handshake.c
+@@ -286,7 +286,8 @@ _get_os_version (void)
     char *ret = bson_malloc (HANDSHAKE_OS_VERSION_MAX);
     bool found = false;
  
@@ -89,11 +82,11 @@ index 4e181bd..b274fc1 100644
     OSVERSIONINFO osvi;
     ZeroMemory (&osvi, sizeof (OSVERSIONINFO));
     osvi.dwOSVersionInfoSize = sizeof (OSVERSIONINFO);
-diff --git a/src/mongoc/mongoc-util.c b/src/mongoc/mongoc-util.c
-index 6dbb26d..7f33780 100644
---- a/src/mongoc/mongoc-util.c
-+++ b/src/mongoc/mongoc-util.c
-@@ -69,7 +69,11 @@ _mongoc_hex_md5 (const char *input)
+diff --git a/src/libmongoc/src/mongoc/mongoc-util.c b/src/libmongoc/src/mongoc/mongoc-util.c
+index eece2aa..2acf64f 100644
+--- a/src/libmongoc/src/mongoc/mongoc-util.c
++++ b/src/libmongoc/src/mongoc/mongoc-util.c
+@@ -84,7 +84,11 @@ _mongoc_hex_md5 (const char *input)
  void
  _mongoc_usleep (int64_t usec)
  {
