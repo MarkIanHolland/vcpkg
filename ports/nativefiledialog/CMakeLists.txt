@@ -4,7 +4,6 @@ project(nativefiledialog LANGUAGES C CXX VERSION 1.1.2)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_C_STANDARD 11)
 set(INSTALL_CMAKE_DIR share/nativefiledialog)
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set(HEADERS 
         src/include/nfd.h
 )

@@ -7,11 +7,6 @@ vcpkg_from_github(
     HEAD_REF master
 )
 file(COPY ${CMAKE_CURRENT_LIST_DIR}/CMakeLists.txt DESTINATION ${SOURCE_PATH})
-#if(WIN32)
-#    vcpkg_build_msbuild(
-#        PROJECT_PATH ${SOURCE_PATH}/build/vs2010/NativeFileDialog.sln
-#        file(INSTALL ${SOURCE_PATH}/include/nativefiledialog DESTINATION ${CURRENT_PACKAGES_DIR}/share/nativefiledialog RENAME copyright)   
-#    )
 
 vcpkg_configure_cmake(
     SOURCE_PATH ${SOURCE_PATH}
